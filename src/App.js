@@ -1,25 +1,34 @@
-import logo from './logo.svg';
-import './App.css';
+import { useDispatch } from 'react-redux';
+import { useEffect } from 'react';
+import { receiveMessage } from './redux/slices/chatSlice';
+import ChatWindow from './components/ChatWindow';
+import MessageInput from './components/MessageInput';
 
-function App() {
+const App = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    // Simulate receiving a message after 5 seconds
+    const simulateIncomingMessage = () => {
+      setTimeout(() => {
+        dispatch(receiveMessage({
+          id: Date.now(),
+          user: 'User2',
+          text: 'Hello from User2!',
+          timestamp: new Date().toISOString(),
+        }));
+      }, 5000);
+    };
+
+    simulateIncomingMessage();
+  }, [dispatch]);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <ChatWindow />
+      <MessageInput />
     </div>
   );
-}
+};
 
 export default App;
